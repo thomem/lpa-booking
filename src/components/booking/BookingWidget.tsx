@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Star, Users, Minus, Plus, Tag } from "lucide-react";
+import { Star, Users, Minus, Plus, Tag, Shield, Zap } from "lucide-react";
 import { DayPicker } from "react-day-picker";
 import { fr } from "date-fns/locale";
 import "react-day-picker/style.css";
@@ -35,7 +35,6 @@ export function BookingWidget() {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState<"dates" | "info">("dates");
 
-  // Load availability
   useEffect(() => {
     const now = new Date();
     fetch(`/api/availability?year=${now.getFullYear()}&month=${now.getMonth() + 1}`)
@@ -46,7 +45,6 @@ export function BookingWidget() {
       .catch(() => {});
   }, []);
 
-  // Fetch pricing when dates change
   useEffect(() => {
     if (!range.from || !range.to) {
       setPricing(null);
@@ -109,40 +107,49 @@ export function BookingWidget() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.3 }}
-      className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden"
+      transition={{ duration: 0.6, delay: 0.3 }}
+      className="bg-white rounded-3xl shadow-[0_8px_60px_rgba(0,0,0,0.12)] border border-gray-100 overflow-hidden"
     >
       {/* Header */}
-      <div className="p-6 pb-0">
-        <div className="flex items-baseline justify-between mb-1">
-          <div>
-            <span className="text-2xl font-bold text-gray-900">À partir de 89 €</span>
-            <span className="text-gray-500 ml-1">/ nuit</span>
+      <div className="px-6 pt-6 pb-4 border-b border-gray-100">
+        <div className="flex items-center justify-between mb-1">
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-3xl font-black text-gray-900 font-serif">89 €</span>
+            <span className="text-gray-400 text-sm">/ nuit</span>
           </div>
-          <div className="flex items-center gap-1 text-sm">
-            <Star className="w-4 h-4 fill-gray-900" />
-            <span className="font-semibold">{PROPERTY.rating}</span>
-            <span className="text-gray-500">({PROPERTY.reviewCount})</span>
+          <div className="flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-full">
+            <Star className="w-3.5 h-3.5 fill-gray-900 text-gray-900" />
+            <span className="font-bold text-sm text-gray-900">{PROPERTY.rating}</span>
+            <span className="text-gray-400 text-xs">({PROPERTY.reviewCount})</span>
           </div>
         </div>
-        <p className="text-green-600 text-sm font-medium mb-4">✓ Réservation directe — sans frais de service</p>
+        <div className="flex items-center gap-1.5">
+          <Zap className="w-3.5 h-3.5 text-green-500" />
+          <p className="text-green-600 text-xs font-semibold">Réservation directe — sans frais de service</p>
+        </div>
       </div>
 
-      {/* Steps */}
-      <div className="flex border-b">
-        {(["dates", "info"] as const).map((s) => (
+      {/* Step tabs */}
+      <div className="flex border-b border-gray-100">
+        {(["dates", "info"] as const).map((s, i) => (
           <button
             key={s}
             onClick={() => s === "info" && range.from && range.to && setStep(s)}
-            className={`flex-1 py-3 text-sm font-semibold transition-colors ${
+            className={`flex-1 py-3.5 text-xs font-bold uppercase tracking-wider transition-colors relative ${
               step === s
-                ? "border-b-2 border-brand-600 text-brand-600"
+                ? "text-brand-600"
                 : "text-gray-400 hover:text-gray-600"
             }`}
           >
-            {s === "dates" ? "1. Dates" : "2. Vos informations"}
+            {i + 1}. {s === "dates" ? "Dates" : "Mes informations"}
+            {step === s && (
+              <motion.div
+                layoutId="booking-tab-indicator"
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-600"
+              />
+            )}
           </button>
         ))}
       </div>
@@ -160,8 +167,6 @@ export function BookingWidget() {
               className="!w-full"
               classNames={{
                 root: "text-sm",
-                day_selected: "bg-brand-600 text-white",
-                day_range_middle: "bg-brand-100 text-brand-900",
               }}
               numberOfMonths={1}
             />
@@ -169,37 +174,37 @@ export function BookingWidget() {
             {/* Date summary */}
             {range.from && range.to && (
               <div className="grid grid-cols-2 gap-2 text-sm">
-                <div className="border rounded-xl p-3">
-                  <p className="text-xs text-gray-500 uppercase tracking-wider">Arrivée</p>
-                  <p className="font-semibold">{formatDateShort(range.from)}</p>
+                <div className="border border-gray-200 rounded-xl p-3 bg-gray-50">
+                  <p className="text-xs text-gray-400 uppercase tracking-widest mb-1">Arrivée</p>
+                  <p className="font-bold text-gray-900">{formatDateShort(range.from)}</p>
                 </div>
-                <div className="border rounded-xl p-3">
-                  <p className="text-xs text-gray-500 uppercase tracking-wider">Départ</p>
-                  <p className="font-semibold">{formatDateShort(range.to)}</p>
+                <div className="border border-gray-200 rounded-xl p-3 bg-gray-50">
+                  <p className="text-xs text-gray-400 uppercase tracking-widest mb-1">Départ</p>
+                  <p className="font-bold text-gray-900">{formatDateShort(range.to)}</p>
                 </div>
               </div>
             )}
 
             {/* Guests */}
-            <div className="border rounded-xl p-4 flex items-center justify-between">
-              <div className="flex items-center gap-2">
+            <div className="border border-gray-200 rounded-xl p-4 flex items-center justify-between bg-gray-50/50">
+              <div className="flex items-center gap-2.5">
                 <Users className="w-4 h-4 text-gray-500" />
                 <div>
-                  <p className="font-semibold text-sm">Voyageurs</p>
-                  <p className="text-xs text-gray-500">Max {PROPERTY.maxGuests}</p>
+                  <p className="font-semibold text-sm text-gray-900">Voyageurs</p>
+                  <p className="text-xs text-gray-400">Max {PROPERTY.maxGuests} personnes</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setGuests((g) => Math.max(1, g - 1))}
-                  className="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center hover:border-gray-900 transition-colors"
+                  className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-gray-900 flex items-center justify-center transition-colors"
                 >
                   <Minus className="w-3 h-3" />
                 </button>
-                <span className="font-semibold w-6 text-center">{guests}</span>
+                <span className="font-bold w-6 text-center text-gray-900">{guests}</span>
                 <button
                   onClick={() => setGuests((g) => Math.min(PROPERTY.maxGuests, g + 1))}
-                  className="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center hover:border-gray-900 transition-colors"
+                  className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-gray-900 flex items-center justify-center transition-colors"
                 >
                   <Plus className="w-3 h-3" />
                 </button>
@@ -213,49 +218,62 @@ export function BookingWidget() {
                 <input
                   value={promoCode}
                   onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
-                  placeholder="Code promo"
-                  className="w-full pl-9 pr-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  placeholder="Code promo (facultatif)"
+                  className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
                 />
               </div>
             </div>
 
             {/* Pricing breakdown */}
             {pricing && nights > 0 && (
-              <div className="bg-gray-50 rounded-xl p-4 space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">{formatCurrency(pricing.basePrice)} × {nights} nuit(s)</span>
-                  <span>{formatCurrency(pricing.nightlyTotal)}</span>
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-brand-50 border border-brand-100 rounded-xl p-4 space-y-2 text-sm"
+              >
+                <div className="flex justify-between text-gray-700">
+                  <span>{formatCurrency(pricing.basePrice)} × {nights} nuit{nights > 1 ? "s" : ""}</span>
+                  <span className="font-medium">{formatCurrency(pricing.nightlyTotal)}</span>
                 </div>
                 {pricing.discount > 0 && (
-                  <div className="flex justify-between text-green-600">
+                  <div className="flex justify-between text-green-600 font-medium">
                     <span>{pricing.discountLabel || pricing.promoLabel}</span>
                     <span>-{formatCurrency(pricing.discount)}</span>
                   </div>
                 )}
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Frais de ménage</span>
-                  <span>{formatCurrency(pricing.cleaningFee)}</span>
+                <div className="flex justify-between text-gray-700">
+                  <span>Frais de ménage</span>
+                  <span className="font-medium">{formatCurrency(pricing.cleaningFee)}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Taxes</span>
-                  <span>{formatCurrency(pricing.taxes)}</span>
+                <div className="flex justify-between text-gray-700">
+                  <span>Taxes</span>
+                  <span className="font-medium">{formatCurrency(pricing.taxes)}</span>
                 </div>
-                <div className="flex justify-between font-bold text-base border-t pt-2 mt-2">
+                <div className="flex justify-between font-black text-base border-t border-brand-200 pt-2.5 mt-2 text-gray-900">
                   <span>Total</span>
                   <span>{formatCurrency(pricing.total)}</span>
                 </div>
-              </div>
+              </motion.div>
             )}
 
-            <button
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => {
                 if (!range.from || !range.to) return toast.error("Sélectionnez vos dates d'arrivée et de départ.");
                 setStep("info");
               }}
-              className="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-4 rounded-xl transition-all hover:shadow-lg disabled:opacity-50"
+              className="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-4 rounded-2xl transition-all hover:shadow-lg hover:shadow-brand-200 text-sm"
             >
-              {range.from && range.to ? `Continuer — ${nights} nuit(s)` : "Choisir les dates"}
-            </button>
+              {range.from && range.to
+                ? `Continuer — ${nights} nuit${nights > 1 ? "s" : ""}`
+                : "Choisir les dates"}
+            </motion.button>
+
+            <div className="flex items-center justify-center gap-1.5 text-xs text-gray-400">
+              <Shield className="w-3.5 h-3.5" />
+              Aucun débit maintenant · Paiement sécurisé
+            </div>
           </div>
         )}
 
@@ -263,12 +281,12 @@ export function BookingWidget() {
           <div className="space-y-4">
             {/* Summary */}
             {range.from && range.to && (
-              <div className="bg-gray-50 rounded-xl p-3 text-sm flex justify-between items-center">
+              <div className="bg-brand-50 border border-brand-100 rounded-xl p-3.5 text-sm flex justify-between items-center">
                 <div>
-                  <p className="font-semibold">{formatDateShort(range.from)} → {formatDateShort(range.to)}</p>
-                  <p className="text-gray-500">{nights} nuit(s) · {guests} voyageur(s)</p>
+                  <p className="font-bold text-gray-900">{formatDateShort(range.from)} → {formatDateShort(range.to)}</p>
+                  <p className="text-gray-500 text-xs mt-0.5">{nights} nuit{nights > 1 ? "s" : ""} · {guests} voyageur{guests > 1 ? "s" : ""}</p>
                 </div>
-                <button onClick={() => setStep("dates")} className="text-brand-600 text-xs font-semibold hover:underline">
+                <button onClick={() => setStep("dates")} className="text-brand-600 text-xs font-bold hover:underline">
                   Modifier
                 </button>
               </div>
@@ -280,56 +298,60 @@ export function BookingWidget() {
                 value={guestName}
                 onChange={(e) => setGuestName(e.target.value)}
                 placeholder="Nom complet *"
-                className="w-full px-4 py-3 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
               />
               <input
                 type="email"
                 value={guestEmail}
                 onChange={(e) => setGuestEmail(e.target.value)}
                 placeholder="Adresse email *"
-                className="w-full px-4 py-3 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
               />
               <input
                 type="tel"
                 value={guestPhone}
                 onChange={(e) => setGuestPhone(e.target.value)}
                 placeholder="Téléphone (facultatif)"
-                className="w-full px-4 py-3 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
               />
               <textarea
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Message au propriétaire (facultatif)"
                 rows={2}
-                className="w-full px-4 py-3 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all resize-none"
               />
             </div>
 
-            {/* Final total */}
             {pricing && (
-              <div className="flex justify-between font-bold text-lg border-t pt-3">
+              <div className="flex justify-between font-black text-lg border-t pt-3 text-gray-900">
                 <span>Total à payer</span>
                 <span>{formatCurrency(pricing.total)}</span>
               </div>
             )}
 
-            <button
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={handleSubmit}
               disabled={loading}
-              className="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-4 rounded-xl transition-all hover:shadow-lg disabled:opacity-60 flex items-center justify-center gap-2"
+              className="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-4 rounded-2xl transition-all hover:shadow-lg disabled:opacity-60 flex items-center justify-center gap-2.5 text-sm"
             >
               {loading ? (
                 <>
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   Redirection vers le paiement...
                 </>
               ) : (
-                <>💳 Payer avec Stripe</>
+                <>
+                  <Shield className="w-4 h-4" />
+                  Payer avec Stripe
+                </>
               )}
-            </button>
+            </motion.button>
 
-            <p className="text-xs text-gray-400 text-center flex items-center justify-center gap-1">
-              🔒 Paiement 100% sécurisé — Stripe
+            <p className="text-xs text-gray-400 text-center">
+              🔒 Paiement 100% sécurisé via Stripe
             </p>
           </div>
         )}
