@@ -1,5 +1,8 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  // native = Windows (build local) ; rhel = runtime Netlify/AWS Lambda (Linux).
+  // Les deux variantes OpenSSL couvrent Node 18 (AL2/1.0.x) et Node 20 (AL2023/3.0.x).
+  binaryTargets = ["native", "rhel-openssl-1.0.x", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
