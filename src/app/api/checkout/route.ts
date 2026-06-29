@@ -7,7 +7,7 @@ import { z } from "zod";
 const schema = z.object({
   checkIn: z.string(),
   checkOut: z.string(),
-  guests: z.number().min(1).max(10),
+  guests: z.number().min(1).max(12),
   guestName: z.string().min(2),
   guestEmail: z.string().email(),
   guestPhone: z.string().optional(),
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
             product_data: {
               name: `${nights} nuit(s) — ${process.env.NEXT_PUBLIC_PROPERTY_NAME || "Appartement"}`,
               description: `${checkIn.toLocaleDateString("fr-FR")} → ${checkOut.toLocaleDateString("fr-FR")}`,
-              images: ["https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800"],
+              images: ["https://a0.muscache.com/im/pictures/miso/Hosting-1325959052450938203/original/4dd94e1e-072c-4044-8299-0571e3ba655e.jpeg?im_w=720"],
             },
           },
           quantity: 1,
