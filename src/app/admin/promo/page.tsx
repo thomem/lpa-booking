@@ -17,7 +17,7 @@ interface PromoCode {
 
 export default function PromoPage() {
   const [promos, setPromos] = useState<PromoCode[]>([]);
-  const [form, setForm] = useState({ code: "", discount: 10, type: "PERCENTAGE" as const, maxUses: "", expiresAt: "" });
+  const [form, setForm] = useState<{ code: string; discount: number; type: "PERCENTAGE" | "FIXED"; maxUses: string; expiresAt: string }>({ code: "", discount: 10, type: "PERCENTAGE", maxUses: "", expiresAt: "" });
   const [saving, setSaving] = useState(false);
 
   const fetch_ = () => {
