@@ -46,43 +46,39 @@ export const RULES = [
   "Portail sécurisé — code remis à l'arrivée",
 ];
 
-// Casa Maddalena — Syracuse, Sicile
+// Casa Maddalena — Photos originales de la propriété
 export const PROPERTY_IMAGES = [
   {
-    url: "https://images.unsplash.com/photo-1499678329028-101435549a4e?w=1600&q=90",
-    alt: "Vue panoramique sur la mer Ionienne et Ortygie",
+    url: "https://a0.muscache.com/im/pictures/miso/Hosting-1325959052450938203/original/4dd94e1e-072c-4044-8299-0571e3ba655e.jpeg?im_w=1600",
+    alt: "Casa Maddalena — Vue panoramique sur la mer Ionienne et Ortygie",
     hero: true,
   },
   {
-    url: "https://images.unsplash.com/photo-1602002418082-a4443e081dd1?w=1200&q=85",
-    alt: "Grande terrasse avec table pour 12 personnes face à la mer",
+    url: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTMyNTk1OTA1MjQ1MDkzODIwMw%3D%3D/original/e7c3b674-07a2-457f-acd2-fe4e03840f7e.jpeg?im_w=1600",
+    alt: "Terrasse avec vue sur la baie de Syracuse",
   },
   {
-    url: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=85",
-    alt: "Chambre avec vue mer",
+    url: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTMyNTk1OTA1MjQ1MDkzODIwMw%3D%3D/original/ce85720a-f047-4009-bb22-9e5e6f0010df.jpeg?im_w=1600",
+    alt: "Espace de vie lumineux",
   },
   {
-    url: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1200&q=85",
-    alt: "Accès privé à la mer",
+    url: "https://a0.muscache.com/im/pictures/miso/Hosting-1325959052450938203/original/4ade0fa7-231c-446f-86d1-2c954335e482.jpeg?im_w=1600",
+    alt: "Jardin privé et accès à la mer",
   },
   {
-    url: "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=1200&q=85",
-    alt: "Salon contemporain style années 70",
+    url: "https://a0.muscache.com/im/pictures/miso/Hosting-1325959052450938203/original/07218b56-f912-4233-9228-20dc841ad160.png?im_w=1600",
+    alt: "Vue de nuit sur la baie d'Ortygie",
   },
   {
-    url: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&q=85",
-    alt: "Cuisine intérieure haut de gamme",
+    url: "https://a0.muscache.com/im/pictures/miso/Hosting-1325959052450938203/original/1164374f-f82b-4464-92e4-b73c132a6003.jpeg?im_w=1600",
+    alt: "Chambre élégante",
   },
   {
-    url: "https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=1200&q=85",
-    alt: "Terrasse extérieure avec vue sur la baie",
+    url: "https://a0.muscache.com/im/pictures/miso/Hosting-1325959052450938203/original/853aeb55-08fb-4185-b3c8-06bda9eb791a.jpeg?im_w=1600",
+    alt: "Cuisine équipée haut de gamme",
   },
   {
-    url: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=1200&q=85",
-    alt: "Salle de bain avec carreaux artisanaux de l'Etna",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=1200&q=85",
-    alt: "Jardin privé et espace extérieur",
+    url: "https://a0.muscache.com/im/pictures/miso/Hosting-1325959052450938203/original/4dd94e1e-072c-4044-8299-0571e3ba655e.jpeg?im_w=1200",
+    alt: "Salon style contemporain",
   },
 ];
