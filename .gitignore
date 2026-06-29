@@ -25,3 +25,5 @@ yarn-debug.log*
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+.env.netlify-import
+deploy.ps1
